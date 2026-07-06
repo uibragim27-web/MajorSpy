@@ -2113,14 +2113,28 @@ async def handle_menu_callback(callback: CallbackQuery, bot: Bot) -> None:
         await callback.answer(f"Слишком много нажатий. Подождите {retry_after} сек.", show_alert=True)
         return
 
+    if data == "menu:instruction":
+        text = _instruction_text()
+        reply_markup = _start_keyboard()
+        if callback.message:
+            if WELCOME_IMAGE_PATH.exists():
+                await callback.message.answer_photo(
+                    photo=FSInputFile(WELCOME_IMAGE_PATH),
+                    caption=text,
+                    parse_mode=ParseMode.HTML,
+                    reply_markup=reply_markup,
+                )
+            else:
+                await callback.message.answer(text, parse_mode=ParseMode.HTML, reply_markup=reply_markup)
+        await callback.answer()
+        return
+
     if data == "menu:features":
         text = _features_text()
     elif data == "menu:translation":
         text = _translation_text()
     elif data == "menu:export":
         text = _export_help_text()
-    elif data == "menu:instruction":
-        text = _instruction_text()
     elif data == "menu:demo":
         text = _demo_text()
     elif data == "menu:pro":
