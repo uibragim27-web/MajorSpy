@@ -16,7 +16,7 @@ ALLOWED_USER_IDS=
 DATA_DIR=/data
 MAX_DOWNLOAD_MB=50
 MAX_EXPORT_MESSAGES=5000
-MEDIA_RETENTION_DAYS=7
+MEDIA_RETENTION_DAYS=3
 MEDIA_CLEANUP_ENABLED=true
 MEDIA_USER_LIMIT_MB=500
 MEDIA_QUOTA_GRACE_HOURS=24
@@ -25,7 +25,7 @@ DEBUG_EXPORT=false
 
 ## Storage
 
-For persistent SQLite and media storage, add a Railway Volume and mount it to:
+For persistent SQLite and 3-day media storage, add a Railway Volume and mount it to:
 
 ```text
 /data
