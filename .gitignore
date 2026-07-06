@@ -1,0 +1,9 @@
+.env
+messages.db
+storage/
+logs/
+exports/
+__pycache__/
+*.pyc
+.venv/
+venv/
