@@ -118,6 +118,7 @@ RATE_LIMIT_BLOCKED_UNTIL: dict[tuple[str, int], float] = {}
 BOT_SIGNATURE = "Бот @MajorSpyBot"
 CONNECT_URL = "tg://settings/edit"
 WELCOME_IMAGE_PATH = Path("assets") / "welcome.png"
+APP_VERSION = "welcome-photo-buttons-v2"
 BOT_SHORT_DESCRIPTION = "Сохраняет удалённые сообщения, фото, видео и голосовые."
 BOT_DESCRIPTION = (
     "Major Spy помогает не потерять важные сообщения.\n\n"
@@ -2102,6 +2103,13 @@ async def handle_help(message: Message, bot: Bot) -> None:
         )
 
 
+async def handle_version(message: Message, bot: Bot) -> None:
+    if message.chat.type != PRIVATE_CHAT:
+        return
+
+    await message.answer(f"Major Spy version: <code>{APP_VERSION}</code>", parse_mode=ParseMode.HTML)
+
+
 async def handle_menu_callback(callback: CallbackQuery, bot: Bot) -> None:
     data = callback.data or ""
     if not data.startswith("menu:"):
@@ -3124,6 +3132,7 @@ async def main() -> None:
     dispatcher.message.register(handle_start, Command("start"))
     dispatcher.message.register(handle_help, Command("help"))
     dispatcher.message.register(handle_ping, Command("ping"))
+    dispatcher.message.register(handle_version, Command("version"))
     dispatcher.message.register(handle_debug, Command("debug"))
     dispatcher.message.register(handle_stats, Command("stats"))
     dispatcher.message.register(handle_dialogs, Command("dialogs"))
@@ -3144,6 +3153,7 @@ async def main() -> None:
     dispatcher.errors.register(handle_unexpected_error)
 
     logging.info("Bot started")
+    logging.info("APP_VERSION: %s", APP_VERSION)
     logging.info("Allowed updates: %s", ALLOWED_UPDATES)
     logging.info("SUPER_ADMIN_IDS count: %s", len(SUPER_ADMIN_IDS))
     logging.info("MAX_DOWNLOAD_MB: %s", MAX_DOWNLOAD_MB)
