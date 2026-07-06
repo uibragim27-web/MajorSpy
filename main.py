@@ -117,6 +117,7 @@ RATE_LIMIT_EVENTS: dict[tuple[str, int], deque[float]] = defaultdict(deque)
 RATE_LIMIT_BLOCKED_UNTIL: dict[tuple[str, int], float] = {}
 BOT_SIGNATURE = "Бот @MajorSpyBot"
 CONNECT_URL = "tg://settings/edit"
+WELCOME_IMAGE_PATH = Path("assets") / "welcome.png"
 BOT_SHORT_DESCRIPTION = "Сохраняет удалённые сообщения, фото, видео и голосовые."
 BOT_DESCRIPTION = (
     "Major Spy помогает не потерять важные сообщения.\n\n"
@@ -2072,11 +2073,20 @@ async def handle_start(message: Message, bot: Bot) -> None:
     if user_id in SUPER_ADMIN_IDS:
         status = "super admin"
 
-    await message.answer(
-        _start_text(user_id, status),
-        parse_mode=ParseMode.HTML,
-        reply_markup=_start_keyboard(),
-    )
+    start_text = _start_text(user_id, status)
+    if WELCOME_IMAGE_PATH.exists():
+        await message.answer_photo(
+            photo=FSInputFile(WELCOME_IMAGE_PATH),
+            caption=start_text,
+            parse_mode=ParseMode.HTML,
+            reply_markup=_start_keyboard(),
+        )
+    else:
+        await message.answer(
+            start_text,
+            parse_mode=ParseMode.HTML,
+            reply_markup=_start_keyboard(),
+        )
 
 
 async def handle_help(message: Message, bot: Bot) -> None:
