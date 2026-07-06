@@ -1758,8 +1758,8 @@ def _start_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="Подключить", url=CONNECT_URL),
-                InlineKeyboardButton(text="🔵 Major Pro", callback_data="menu:pro"),
+                InlineKeyboardButton(text="Подключить", url=CONNECT_URL, style="success"),
+                InlineKeyboardButton(text="Major Pro", callback_data="menu:pro", style="primary"),
             ],
             [
                 InlineKeyboardButton(text="Инструкция", callback_data="menu:instruction"),
